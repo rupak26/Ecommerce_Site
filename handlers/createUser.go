@@ -22,6 +22,9 @@ func CreateUser(w http.ResponseWriter , r *http.Request) {
 		return 
 	}
 
+	newUser.Id = len(UserList) + 1
+
 	utils.WriteResponse(w , http.StatusCreated , newUser)
+
 	UserList = append(UserList, newUser)
 }
