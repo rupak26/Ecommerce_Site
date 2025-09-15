@@ -1,26 +1,35 @@
 package cmd
 
-
 import (
+	"ecommerce/config"
+	"ecommerce/middleware"
 	"fmt"
 	"net/http"
-	"ecommerce/handlers"
-	"ecommerce/middleware"
 )
 
 func Serve() {
+	cnf := config.GetConfig()
+
+	manager := middleware.NewManager() 
+
 	mux := http.NewServeMux() 
 
-	mux.Handle("GET /users" ,middleware.CorsMiddleWare(http.HandlerFunc(handlers.GetUser) ))
+    //replacement 
+	InitRouter(mux , manager)
+	//mux.Handle("GET /users" ,middleware.Logger(http.HandlerFunc(handlers.GetUser)))
 
-	mux.Handle("GET /users/{id}",middleware.CorsMiddleWare(http.HandlerFunc(handlers.GetUserById)))
+	//mux.Handle("GET /users/{id}",middleware.Logger(http.HandlerFunc(handlers.GetUserById)))
 
-	mux.Handle("POST /users" , middleware.CorsMiddleWare(http.HandlerFunc(handlers.CreateUser)))
+	//mux.Handle("POST /users" ,middleware.Logger(http.HandlerFunc(handlers.CreateUser)))
+    
+	addr := ":" + string(cnf.HttpPort)
 
-	fmt.Println("The server is running in port 8080") 
+	fmt.Println("The server is running in port 8080" , addr) 
 
-	err := http.ListenAndServe(":8080" , mux)
+	globalrouter := middleware.CorsWithPrefight(mux)
 
+	err := http.ListenAndServe(addr , globalrouter)
+    
 	if err != nil {
 		fmt.Println("Server is facing issues" , err)
 	}
