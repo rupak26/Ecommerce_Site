@@ -1,9 +1,9 @@
-package cmd 
+package rest
 
 import (
 	"net/http"
-	"ecommerce/handlers"
-	"ecommerce/middleware"
+	"ecommerce/rest/handlers"
+	"ecommerce/rest/middleware"
 )
 
 func InitRouter(mux *http.ServeMux , manager *middleware.Manager) {
@@ -12,6 +12,8 @@ func InitRouter(mux *http.ServeMux , manager *middleware.Manager) {
 		manager.With(
 			http.HandlerFunc(handlers.GetUser),
 			middleware.Logger,
+			middleware.Cors,
+			middleware.Prefight,
 	    ),
     )
     mux.Handle(
@@ -19,6 +21,8 @@ func InitRouter(mux *http.ServeMux , manager *middleware.Manager) {
 		manager.With(
 			http.HandlerFunc(handlers.GetUserById),
 			middleware.Logger,
+			middleware.Cors,
+			middleware.Prefight,
 	    ),
     )
 	mux.Handle(
@@ -26,6 +30,8 @@ func InitRouter(mux *http.ServeMux , manager *middleware.Manager) {
 		manager.With(
 			http.HandlerFunc(handlers.CreateUser),
 			middleware.Logger,
+			middleware.Cors,
+			middleware.Prefight,
 	    ),
 	)
 }

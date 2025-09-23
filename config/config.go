@@ -45,7 +45,7 @@ func loadConfig() {
 	}
     
 	port , err := strconv.ParseInt(http_port , 10 , 64)
-
+    
 	if err != nil {
 		fmt.Println("Port must be integer")
 		os.Exit(1)
