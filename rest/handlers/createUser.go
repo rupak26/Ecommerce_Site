@@ -4,15 +4,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"ecommerce/types"
 	"ecommerce/utils"
+	"ecommerce/database"
 )
 
-var UserList[] types.User
+
 
 func CreateUser(w http.ResponseWriter , r *http.Request) {
 	
-	var newUser types.User
+	var newUser database.User
 
 	decoder := json.NewDecoder(r.Body) 
 	err := decoder.Decode(&newUser) 
@@ -22,9 +22,9 @@ func CreateUser(w http.ResponseWriter , r *http.Request) {
 		return 
 	}
 
-	newUser.Id = len(UserList) + 1
+	newUser.Id = len(database.UserList) + 1
 
 	utils.WriteResponse(w , http.StatusCreated , newUser)
 
-	UserList = append(UserList, newUser)
+	database.Store(newUser)
 }
