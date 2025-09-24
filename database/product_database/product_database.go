@@ -3,10 +3,10 @@ package productdatabase
 
 
 type Product struct {
-	Id   int    `json:"id"`
+	Id   int           `json:"id"`
 	ProductName string `json:"productname"`
-	Url  string    `json:"url"`
-	Quantity int `json:"quantity"`
+	Url  string        `json:"url"`
+	Quantity int       `json:"quantity"`
 }
 
 var ProductList[] Product

@@ -34,4 +34,13 @@ func InitUserRouter(mux *http.ServeMux , manager *middleware.Manager) {
 			middleware.Prefight,
 	    ),
 	)
+	mux.Handle(
+		"POST /users/login" ,
+		manager.With(
+			http.HandlerFunc(user_handler.Login),
+			middleware.Logger,
+			middleware.Cors,
+			middleware.Prefight,
+	    ),
+	)
 }
