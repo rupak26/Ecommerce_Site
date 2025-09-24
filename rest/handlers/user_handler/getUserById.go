@@ -1,8 +1,8 @@
-package handlers
+package user_handler
 
 import (
 	"ecommerce/utils"
-	"ecommerce/database"
+	"ecommerce/database/user_database"
 	//"fmt"
 	"net/http"
 	"strconv"
@@ -22,10 +22,10 @@ func GetUserById(w http.ResponseWriter , r *http.Request) {
 	// 	utils.WriteResponse(w , http.StatusNotFound , fmt.Sprintf("User with id %d not found", numId))
 	// 	return 
 	// }
-	user := database.Get(numId) 
+	user := userdatabase.GetUser(numId) 
 	if user == nil {
 		utils.Send_erros(w , "User not found" , http.StatusNotFound)
 		return
 	}
-	utils.WriteResponse(w , http.StatusOK , database.Get(numId))
+	utils.WriteResponse(w , http.StatusOK , userdatabase.GetUser(numId))
 }

@@ -1,4 +1,5 @@
-package database
+package userdatabase
+
 
 type User struct {
 	Id   int    `json:"id"`
@@ -9,15 +10,13 @@ type User struct {
 
 var UserList[] User
 
-func Store(user User) {
+func StoreUser(user User) {
 	UserList = append(UserList, user)
 }
-
-func List() []User {
+func GetUserList() []User {
 	return UserList
 }
-
-func Get(id int) *User {
+func GetUser(id int) *User {
 	for _,user := range(UserList) {
 		if user.Id == id {
 			return &user
@@ -25,4 +24,3 @@ func Get(id int) *User {
 	}
 	return nil
 }
-

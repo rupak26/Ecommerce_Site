@@ -5,6 +5,7 @@ import (
 	"ecommerce/rest/middleware"
 	"strconv"
 	"ecommerce/config"
+	"ecommerce/rest/routes"
 	"fmt"
 )
 
@@ -14,8 +15,8 @@ func Start(cnf config.Config) {
 	mux := http.NewServeMux() 
 
     //replacement 
-	InitRouter(mux , manager)
-	
+	routes.InitUserRouter(mux , manager)
+	routes.InitProductRouter(mux , manager)
 	//mux.Handle("GET /users" ,middleware.Logger(http.HandlerFunc(handlers.GetUser)))
 	//mux.Handle("GET /users/{id}",middleware.Logger(http.HandlerFunc(handlers.GetUserById)))
 	//mux.Handle("POST /users" ,middleware.Logger(http.HandlerFunc(handlers.CreateUser)))

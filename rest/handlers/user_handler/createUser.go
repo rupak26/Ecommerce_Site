@@ -1,18 +1,18 @@
-package handlers
+package user_handler
 
 import (
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"ecommerce/utils"
-	"ecommerce/database"
+	"ecommerce/database/user_database"
 )
 
 
 
 func CreateUser(w http.ResponseWriter , r *http.Request) {
 	
-	var newUser database.User
+	var newUser userdatabase.User
 
 	decoder := json.NewDecoder(r.Body) 
 	err := decoder.Decode(&newUser) 
@@ -22,9 +22,9 @@ func CreateUser(w http.ResponseWriter , r *http.Request) {
 		return 
 	}
 
-	newUser.Id = len(database.UserList) + 1
+	newUser.Id = len(userdatabase.UserList) + 1
 
 	utils.WriteResponse(w , http.StatusCreated , newUser)
 
-	database.Store(newUser)
+	userdatabase.StoreUser(newUser)
 }
