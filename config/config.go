@@ -13,6 +13,7 @@ type Config struct {
 	Version        string 
 	ServiceName    string 
 	HttpPort       int64
+	SecretKey      string
 }
 
 var configuration Config
@@ -51,10 +52,13 @@ func loadConfig() {
 		os.Exit(1)
 	}
 
+	jwtSecretkey := os.Getenv("SECRET_KEY")
+
 	configuration = Config{
 		Version: version,
 		ServiceName: service_name,
 		HttpPort: port,
+		SecretKey: jwtSecretkey,
 	}
 }
 

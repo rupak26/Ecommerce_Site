@@ -1,17 +1,20 @@
 package product_handler
 
 import (
+
+	"ecommerce/database/product_database"
+	"ecommerce/utils"
 	"encoding/json"
 	"fmt"
+	//"hash"
 	"net/http"
-	"ecommerce/utils"
-	"ecommerce/database/product_database"
+	//"github.com/go-playground/locales/tk"
 )
 
 
 
 func CreateProduct(w http.ResponseWriter , r *http.Request) {
-	
+
 	var newProduct productdatabase.Product
 
 	decoder := json.NewDecoder(r.Body) 

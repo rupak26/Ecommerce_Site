@@ -14,6 +14,7 @@ func InitProductRouter(mux *http.ServeMux , manager *middleware.Manager) {
 			middleware.Logger,
 			middleware.Cors,
 			middleware.Prefight,
+			middleware.Authorization,
 	    ),
 	)
 	mux.Handle(
@@ -23,6 +24,7 @@ func InitProductRouter(mux *http.ServeMux , manager *middleware.Manager) {
 			middleware.Logger,
 			middleware.Cors,
 			middleware.Prefight,
+			middleware.Authorization,
 	    ),
 	)
 	mux.Handle(
@@ -32,6 +34,7 @@ func InitProductRouter(mux *http.ServeMux , manager *middleware.Manager) {
 			middleware.Logger,
 			middleware.Cors,
 			middleware.Prefight,
+			middleware.Authorization,
 	    ),
 	)
 }
