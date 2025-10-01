@@ -1,16 +1,15 @@
-package routes
+package user_handler
 
 import (
 	"net/http"
-	"ecommerce/rest/handlers/user_handler"
 	"ecommerce/rest/middleware"
 )
 
-func InitUserRouter(mux *http.ServeMux , manager *middleware.Manager) {
+func (h *Handler) RegisterRouters(mux *http.ServeMux , manager *middleware.Manager) {
 	mux.Handle(
 		"GET /users" ,
 		manager.With(
-			http.HandlerFunc(user_handler.GetUser),
+			http.HandlerFunc(h.GetUser),
 			middleware.Logger,
 			middleware.Cors,
 			middleware.Prefight,
@@ -19,7 +18,7 @@ func InitUserRouter(mux *http.ServeMux , manager *middleware.Manager) {
     mux.Handle(
 		"GET /users/{id}" , 
 		manager.With(
-			http.HandlerFunc(user_handler.GetUserById),
+			http.HandlerFunc(h.GetUserById),
 			middleware.Logger,
 			middleware.Cors,
 			middleware.Prefight,
@@ -28,7 +27,7 @@ func InitUserRouter(mux *http.ServeMux , manager *middleware.Manager) {
 	mux.Handle(
 		"POST /users" ,
 		manager.With(
-			http.HandlerFunc(user_handler.CreateUser),
+			http.HandlerFunc(h.CreateUser),
 			middleware.Logger,
 			middleware.Cors,
 			middleware.Prefight,
@@ -37,7 +36,7 @@ func InitUserRouter(mux *http.ServeMux , manager *middleware.Manager) {
 	mux.Handle(
 		"POST /users/login" ,
 		manager.With(
-			http.HandlerFunc(user_handler.Login),
+			http.HandlerFunc(h.Login),
 			middleware.Logger,
 			middleware.Cors,
 			middleware.Prefight,

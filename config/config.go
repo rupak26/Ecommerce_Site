@@ -16,7 +16,7 @@ type Config struct {
 	SecretKey      string
 }
 
-var configuration Config
+var configuration *Config
 
 func loadConfig() {
 	err := godotenv.Load()
@@ -54,7 +54,7 @@ func loadConfig() {
 
 	jwtSecretkey := os.Getenv("SECRET_KEY")
 
-	configuration = Config{
+	configuration = &Config{
 		Version: version,
 		ServiceName: service_name,
 		HttpPort: port,
@@ -62,7 +62,9 @@ func loadConfig() {
 	}
 }
 
-func GetConfig() Config {
-	loadConfig()
+func GetConfig() * Config {
+	if configuration == nil {
+	   loadConfig()
+	}
 	return configuration
 }

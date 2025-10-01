@@ -6,6 +6,6 @@ import (
 	"ecommerce/database/product_database"
 )
 
-func GetProducts(w http.ResponseWriter , r *http.Request) {
+func (h *Handler) GetProducts(w http.ResponseWriter , r *http.Request) {
     utils.WriteResponse(w , http.StatusOK , productdatabase.GetProductList())
 }

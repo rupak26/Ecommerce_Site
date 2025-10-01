@@ -1,40 +1,39 @@
-package routes
+package product_handler
 
 import (
 	"net/http"
-	"ecommerce/rest/handlers/product_handler"
 	"ecommerce/rest/middleware"
 )
 
-func InitProductRouter(mux *http.ServeMux , manager *middleware.Manager) {
+func (h *Handler) RegisterRouters(mux *http.ServeMux , manager *middleware.Manager) {
 	mux.Handle(
 		"POST /products" ,
 		manager.With(
-			http.HandlerFunc(product_handler.CreateProduct),
+			http.HandlerFunc(h.CreateProduct),
 			middleware.Logger,
 			middleware.Cors,
 			middleware.Prefight,
-			middleware.Authorization,
+			h.middleware.Authorization,
 	    ),
 	)
 	mux.Handle(
 		"GET /products" ,
 		manager.With(
-			http.HandlerFunc(product_handler.GetProducts),
+			http.HandlerFunc(h.GetProducts),
 			middleware.Logger,
 			middleware.Cors,
 			middleware.Prefight,
-			middleware.Authorization,
+			h.middleware.Authorization,
 	    ),
 	)
 	mux.Handle(
 		"GET /products/{id}" ,
 		manager.With(
-			http.HandlerFunc(product_handler.GetProductById),
+			http.HandlerFunc(h.GetProductById),
 			middleware.Logger,
 			middleware.Cors,
 			middleware.Prefight,
-			middleware.Authorization,
+			h.middleware.Authorization,
 	    ),
 	)
 }

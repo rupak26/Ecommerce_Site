@@ -6,6 +6,6 @@ import (
 	"ecommerce/database/user_database"
 )
 
-func GetUser(w http.ResponseWriter , r *http.Request) {
+func (h *Handler) GetUser(w http.ResponseWriter , r *http.Request) {
     utils.WriteResponse(w , http.StatusOK , userdatabase.GetUserList())
 }

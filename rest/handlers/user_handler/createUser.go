@@ -10,7 +10,7 @@ import (
 
 
 
-func CreateUser(w http.ResponseWriter , r *http.Request) {
+func (h *Handler) CreateUser(w http.ResponseWriter , r *http.Request) {
 	
 	var newUser userdatabase.User
 

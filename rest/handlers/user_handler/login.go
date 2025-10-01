@@ -10,7 +10,7 @@ import (
 
 
 
-func Login(w http.ResponseWriter , r *http.Request) {
+func (h *Handler) Login(w http.ResponseWriter , r *http.Request) {
 	
 	var reqLogin userdatabase.ReqLogin
 

@@ -9,7 +9,7 @@ import (
 )
 
 
-func GetUserById(w http.ResponseWriter , r *http.Request) {
+func (h *Handler) GetUserById(w http.ResponseWriter , r *http.Request) {
     id := r.PathValue("id") 
 	 
 	numId , err := strconv.Atoi(id)

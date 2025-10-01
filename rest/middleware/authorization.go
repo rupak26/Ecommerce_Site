@@ -4,12 +4,12 @@ import (
 	"net/http"
 	"crypto/hmac"
 	"crypto/sha256"
-	"ecommerce/config"
+//	"ecommerce/config"
 	"strings"
 	"ecommerce/utils"
 )
 
-func Authorization(next http.Handler) http.Handler {
+func (m *Middlewares) Authorization(next http.Handler) http.Handler {
 	 return http.HandlerFunc(func (w http.ResponseWriter , r *http.Request) {
 		// parse jwt 
 		// parse header and payload or claim 
@@ -46,8 +46,9 @@ func Authorization(next http.Handler) http.Handler {
 		jwtHeader := tokenParts[0] 
 		jwtPayload := tokenParts[1] 
 		signature := tokenParts[2]
-		
-		cnf := config.GetConfig() 
+	
+	// Need to chage this	
+		cnf := m.cnf
 		key := cnf.SecretKey 
 
 		message := jwtHeader + "." + jwtPayload 

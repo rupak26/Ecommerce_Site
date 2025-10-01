@@ -9,7 +9,7 @@ import (
 )
 
 
-func GetProductById(w http.ResponseWriter , r *http.Request) {
+func (h * Handler) GetProductById(w http.ResponseWriter , r *http.Request) {
     id := r.PathValue("id") 
 	 
 	prodId , err := strconv.Atoi(id)
