@@ -42,4 +42,22 @@ func (h *Handler) RegisterRouters(mux *http.ServeMux , manager *middleware.Manag
 			middleware.Prefight,
 	    ),
 	)
+	mux.Handle(
+		"PUT /users/{id}" ,
+		manager.With(
+			http.HandlerFunc(h.UpdateUserById),
+			middleware.Logger,
+			middleware.Cors,
+			middleware.Prefight,
+		),
+	)
+	mux.Handle(
+		"PATCH /users/{id}" ,
+		manager.With(
+			http.HandlerFunc(h.UpdateUserPatialById),
+			middleware.Logger,
+			middleware.Cors,
+			middleware.Prefight,
+		),
+	)
 }

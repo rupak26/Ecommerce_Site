@@ -1,18 +1,24 @@
 package user_handler
 
 import (
+	"ecommerce/repo"
+	"ecommerce/utils"
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"ecommerce/utils"
-	"ecommerce/database/user_database"
 )
 
-
+type CreateUserReq struct {
+	Name string         `json:"name"`
+	Age  int            `json:"age"`
+	Email string        `json:"email"`
+	Password string     `json:"password"`
+	Occupation string   `json:"occupation"`
+}
 
 func (h *Handler) CreateUser(w http.ResponseWriter , r *http.Request) {
 	
-	var newUser userdatabase.User
+	var newUser CreateUserReq
 
 	decoder := json.NewDecoder(r.Body) 
 	err := decoder.Decode(&newUser) 
@@ -22,10 +28,19 @@ func (h *Handler) CreateUser(w http.ResponseWriter , r *http.Request) {
 		return 
 	}
     
+	createUser , err := h.userRepo.Create(repo.User{
+		Name: newUser.Name,
+		Age: newUser.Age,
+		Email: newUser.Email,
+		Password: newUser.Password,
+		Occupation: newUser.Occupation,
+	})
 	
-	newUser.Id = len(userdatabase.UserList) + 1
-
-	userdatabase.StoreUser(newUser)
+	if err != nil {
+		http.Error(w , "Internal Server Error" , http.StatusInternalServerError)
+		return
+	}
 	
-	utils.WriteResponse(w , http.StatusCreated , newUser)
+	
+	utils.WriteResponse(w , http.StatusCreated , createUser)
 }

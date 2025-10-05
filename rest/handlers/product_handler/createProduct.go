@@ -2,7 +2,7 @@ package product_handler
 
 import (
 
-	"ecommerce/database/product_database"
+	"ecommerce/repo"
 	"ecommerce/utils"
 	"encoding/json"
 	"fmt"
@@ -11,11 +11,15 @@ import (
 	//"github.com/go-playground/locales/tk"
 )
 
-
+type RequestCreateProduct struct {
+	ProductName string `json:"productname"`
+	Url  string        `json:"url"`
+	Quantity int       `json:"quantity"`
+}
 
 func (h *Handler) CreateProduct(w http.ResponseWriter , r *http.Request) {
 
-	var newProduct productdatabase.Product
+	var newProduct RequestCreateProduct
 
 	decoder := json.NewDecoder(r.Body) 
 	err := decoder.Decode(&newProduct) 
@@ -25,9 +29,16 @@ func (h *Handler) CreateProduct(w http.ResponseWriter , r *http.Request) {
 		return 
 	}
 
-	newProduct.Id = len(productdatabase.ProductList) + 1
+	createProduct , err := h.productRepo.Create(repo.Product{
+		ProductName : newProduct.ProductName ,
+		Url: newProduct.Url,
+		Quantity: newProduct.Quantity,
+	})
 
-	utils.WriteResponse(w , http.StatusCreated , newProduct)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 
-	productdatabase.StoreProduct(newProduct)
+	utils.WriteResponse(w , http.StatusCreated , createProduct)
 }

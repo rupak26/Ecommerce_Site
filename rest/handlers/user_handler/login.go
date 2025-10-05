@@ -1,18 +1,20 @@
 package user_handler
 
 import (
-	"ecommerce/database/user_database"
 	"ecommerce/utils"
 	"encoding/json"
 	"net/http"
 	"ecommerce/config"
 )
 
-
+type ReqLogin struct {
+	Email string      `json:"email"`
+	Password string   `json:"password"`
+}
 
 func (h *Handler) Login(w http.ResponseWriter , r *http.Request) {
 	
-	var reqLogin userdatabase.ReqLogin
+	var reqLogin ReqLogin
 
 	decoder := json.NewDecoder(r.Body) 
 	err := decoder.Decode(&reqLogin) 
@@ -23,15 +25,15 @@ func (h *Handler) Login(w http.ResponseWriter , r *http.Request) {
 		return 
 	}
 
-	user := userdatabase.Find(reqLogin.Email , reqLogin.Password) 
-	if user == nil {
+	user , err := h.userRepo.Find(reqLogin.Email , reqLogin.Password) 
+	if err != nil {
 		http.Error(w , "Invalid Credentials" , http.StatusBadRequest)
 		return 
 	}
 
 	jwt , err := utils.CreateJwt(key , utils.Payload{
 		Sub: 1,
-		Email: reqLogin.Email,
+		Email: user.Email,
 		Password: reqLogin.Password,
 	})
 	

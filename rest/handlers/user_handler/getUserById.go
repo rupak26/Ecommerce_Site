@@ -2,7 +2,6 @@ package user_handler
 
 import (
 	"ecommerce/utils"
-	"ecommerce/database/user_database"
 	//"fmt"
 	"net/http"
 	"strconv"
@@ -18,14 +17,11 @@ func (h *Handler) GetUserById(w http.ResponseWriter , r *http.Request) {
 		utils.WriteResponse(w , http.StatusInternalServerError , "Enter a valid user id")
 		return
 	}
-	// if len(database.UserList) < numId {
-	// 	utils.WriteResponse(w , http.StatusNotFound , fmt.Sprintf("User with id %d not found", numId))
-	// 	return 
-	// }
-	user := userdatabase.GetUser(numId) 
-	if user == nil {
+	
+	user , err := h.userRepo.GetById(numId)
+	if err != nil {
 		utils.Send_erros(w , "User not found" , http.StatusNotFound)
 		return
 	}
-	utils.WriteResponse(w , http.StatusOK , userdatabase.GetUser(numId))
+	utils.WriteResponse(w , http.StatusOK , user)
 }

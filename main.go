@@ -1,25 +1,92 @@
 package main
-
-
-	// "bytes"
-	// "encoding/base64"
-	//"encoding/base64"
-	// "crypto/hmac"
-	// "crypto/sha256"
-	// "fmt"
-
-	//"golang.org/x/text/message"
-
-
 import	"ecommerce/cmd"
 
-//"golang.org/x/text/number"
-
-
 func main() {
-	cmd.Serve()
+   cmd.Serve()
+}
 
-	//data := []byte("Hello") 
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+    
+// import "fmt"
+
+// // "bytes"
+// // "encoding/base64"
+// //"encoding/base64"
+// // "crypto/hmac"
+// // "crypto/sha256"
+// // "fmt"
+
+// //"golang.org/x/text/message"
+
+// //import	"ecommerce/cmd"
+
+// //"golang.org/x/text/number"
+
+
+// // Struct can implement interface
+// // Sudu Darona (Pure Abustract Class)
+// // Only Signature of a function
+// type User interface {
+//     PrintDetails()
+// 	ReceiveAmmount(ammount float64) float64
+// }
+
+// type BankUser interface {
+// 	WithDrawMoney(ammout float64) float64
+// }
+
+// type user struct {
+//     Name  string 
+// 	Age   int 
+// 	Money float64 
+// }
+
+// // receiver function = method
+// func (obj user) PrintDetails() {
+// 	fmt.Println("Name ",obj.Name) 
+// 	fmt.Println("Age ",obj.Age)
+// 	fmt.Println("Money",obj.Money)
+// }
+
+// func (obj user) ReceiveAmmount(ammount float64) float64 {
+// 	obj.Money = obj.Money + ammount
+// 	return obj.Money
+// }
+
+// func (obj user) WithDrawMoney(ammout float64) float64 {
+// 	obj.Money = obj.Money - ammout 
+// 	return obj.Money
+// }
+   
+//  var usr1 User = user {
+	// 	Name: "Rupak Biswas",
+	// 	Age: 26,
+	// 	Money: 100.10,
+	// }
+	// usr1.PrintDetails()
+	// usr1.ReceiveAmmount(100)
+	// usr1.PrintDetails()
+
+	// var usr2 BankUser = user{
+	// 	Name: "Pronob Bala",
+	// 	Age: 26,
+	// 	Money: 100.10,
+	// }
+
+	// usr2.WithDrawMoney(90)
+
+	// obj , flag := usr2.(user) 
+	// if flag {
+	// 	fmt.Println(obj)
+	// } else {
+	// 	fmt.Println("VALO NA")
+	// }
+	    
+
+
+    // data := []byte("Hello") 
     // s := "HelloWorld"
 	// data := []byte(s)
 	// fmt.Println(s)
@@ -69,4 +136,4 @@ func main() {
     //    fmt.Println("HMAC is NOT valid!")
     // }
 
-}
+/////////////////////////////////////////////////////////////////////////////////////////////////
