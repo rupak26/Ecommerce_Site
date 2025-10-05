@@ -1,16 +1,25 @@
 package user_handler
 
 import (
+	"ecommerce/config"
 	"ecommerce/utils"
 	"encoding/json"
 	"net/http"
-	"ecommerce/config"
 )
 
 type ReqLogin struct {
 	Email string      `json:"email"`
 	Password string   `json:"password"`
 }
+
+type ApiResponse struct {
+	Status  int         `json:"status"`
+	Message string      `json:"message"`
+	Data    interface{} `json:"data,omitempty"`
+}
+
+
+
 
 func (h *Handler) Login(w http.ResponseWriter , r *http.Request) {
 	
@@ -42,7 +51,14 @@ func (h *Handler) Login(w http.ResponseWriter , r *http.Request) {
 		utils.WriteResponse(w , http.StatusInternalServerError , "Internal Server Error")
 		return 
 	}
-	utils.WriteResponse(w , http.StatusCreated , jwt)
+	
+	response := ApiResponse {
+		Status: 201,
+		Message: "Access Token",
+		Data: jwt,
+	}
+
+	utils.WriteResponse(w , http.StatusCreated , response)
 }
 
 

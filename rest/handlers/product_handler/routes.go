@@ -36,4 +36,34 @@ func (h *Handler) RegisterRouters(mux *http.ServeMux , manager *middleware.Manag
 			h.middleware.Authorization,
 	    ),
 	)
+	mux.Handle(
+		"PUT /products/{id}" ,
+		manager.With(
+			http.HandlerFunc(h.UpdateProductById),
+			middleware.Logger,
+			middleware.Cors,
+			middleware.Prefight,
+			h.middleware.Authorization,
+		),
+	)
+	mux.Handle(
+		"PATCH /products/{id}" ,
+		manager.With(
+			http.HandlerFunc(h.UpdateProductPartialiById),
+			middleware.Logger,
+			middleware.Cors,
+			middleware.Prefight,
+			h.middleware.Authorization,
+		),
+	)
+	mux.Handle(
+		"DELETE /products/{id}" ,
+		manager.With(
+			http.HandlerFunc(h.DeleteProduct),
+			middleware.Logger,
+			middleware.Cors,
+			middleware.Prefight,
+			h.middleware.Authorization,
+		),
+	)
 }

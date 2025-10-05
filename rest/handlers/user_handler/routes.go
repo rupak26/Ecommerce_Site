@@ -60,4 +60,13 @@ func (h *Handler) RegisterRouters(mux *http.ServeMux , manager *middleware.Manag
 			middleware.Prefight,
 		),
 	)
+	mux.Handle(
+		"DELETE /users/{id}" ,
+		manager.With(
+			http.HandlerFunc(h.DeleteUser),
+			middleware.Logger,
+			middleware.Cors,
+			middleware.Prefight,
+		),
+	)
 }

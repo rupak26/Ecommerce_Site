@@ -13,6 +13,7 @@ type UserRepo interface {
 	GetById(usrID int) (*User, error)
 	UpdateUser(user User) (*User , error) 
 	PatchUser(id int, req UpdateUserReq) (*User, error)
+	Delete(id int) (error)
 }
 
 type UpdateUserReq struct {
@@ -172,7 +173,7 @@ func (r *userRepo) PatchUser(id int, req UpdateUserReq) (*User, error) {
 	}
 
 	query += strings.Join(setClauses, ", ") + " WHERE id = :id RETURNING id, name, age, email, password, occupation;"
-
+    
 	rows, err := r.db.NamedQuery(query, params)
 	if err != nil {
 		return nil, err
@@ -187,4 +188,15 @@ func (r *userRepo) PatchUser(id int, req UpdateUserReq) (*User, error) {
 		return &user, nil
 	}
 	return nil, fmt.Errorf("user with id %d not found", id)
+}
+
+func (r userRepo) Delete(id int) error {
+	query := `DELETE from 
+	         users 
+	         WHERE id=$1`
+	_,err := r.db.Exec(query , id)
+	if err != nil {
+		return err
+	}
+	return nil
 }

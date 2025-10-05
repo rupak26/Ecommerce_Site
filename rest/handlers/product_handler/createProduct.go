@@ -30,12 +30,13 @@ func (h *Handler) CreateProduct(w http.ResponseWriter , r *http.Request) {
 	}
 
 	createProduct , err := h.productRepo.Create(repo.Product{
-		ProductName : newProduct.ProductName ,
+		ProductName: newProduct.ProductName,
 		Url: newProduct.Url,
 		Quantity: newProduct.Quantity,
 	})
 
 	if err != nil {
+		fmt.Println(err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
