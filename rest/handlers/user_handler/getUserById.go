@@ -18,7 +18,7 @@ func (h *Handler) GetUserById(w http.ResponseWriter , r *http.Request) {
 		return
 	}
 	
-	user , err := h.userRepo.GetById(numId)
+	user , err := h.svc.GetById(numId)
 	if err != nil {
 		utils.Send_erros(w , "User not found" , http.StatusNotFound)
 		return

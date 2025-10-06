@@ -1,7 +1,7 @@
 package user_handler
 
 import (
-	"ecommerce/repo"
+	"ecommerce/domain"
 	"ecommerce/utils"
 	"encoding/json"
 	"fmt"
@@ -28,7 +28,7 @@ func (h *Handler) CreateUser(w http.ResponseWriter , r *http.Request) {
 		return 
 	}
     
-	createUser , err := h.userRepo.Create(repo.User{
+	createUser , err := h.svc.Create(domain.User{
 		Name: newUser.Name,
 		Age: newUser.Age,
 		Email: newUser.Email,

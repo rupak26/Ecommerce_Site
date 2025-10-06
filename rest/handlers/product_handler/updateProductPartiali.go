@@ -1,7 +1,7 @@
 package product_handler
 
 import (
-	"ecommerce/repo"
+	"ecommerce/domain"
 	"ecommerce/utils"
 	"encoding/json"
 	"net/http"
@@ -17,7 +17,7 @@ func (h *Handler) UpdateProductPartialiById(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	var req repo.UpdateProductReq
+	var req domain.UpdateProductReq
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		utils.WriteResponse(w, http.StatusBadRequest, "Invalid JSON")
 		return
@@ -28,7 +28,7 @@ func (h *Handler) UpdateProductPartialiById(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	updatedUser, err := h.productRepo.PatchProduct(numID , req)
+	updatedUser, err := h.svc.PatchProduct(numID, req)
 	if err != nil {
 		utils.WriteResponse(w, http.StatusNotFound, err.Error())
 		return

@@ -1,37 +1,19 @@
 package repo
 
-import ( 
-  "github.com/jmoiron/sqlx"
-  "strings"
-  "fmt"
+import (
+	"ecommerce/domain"
+	"ecommerce/users"
+	"fmt"
+	"strings"
+
+	"github.com/jmoiron/sqlx"
 )
 
 type UserRepo interface {
-	Create(u User) (*User , error)
-	Get() ([]User, error)
-	Find(email , password string) (*User , error)
-	GetById(usrID int) (*User, error)
-	UpdateUser(user User) (*User , error) 
-	PatchUser(id int, req UpdateUserReq) (*User, error)
-	Delete(id int) (error)
+    users.UserRepo   // embedding 
 }
 
-type UpdateUserReq struct {
-	Name *string         `json:"name"`
-	Age  *int            `json:"age"`
-	Email *string        `json:"email"`
-	Password *string     `json:"password"`
-	Occupation *string   `json:"occupation"`
-}
 
-type User struct {
-	Id   int            `json:"id"`
-	Name string         `json:"name"`
-	Age  int            `json:"age"`
-	Email string        `json:"email"`
-	Password string     `json:"password"`
-	Occupation string   `json:"occupation"`
-}
 
 type ReqLogin struct {
 	Email string      `json:"email"`
@@ -48,7 +30,7 @@ func NewUserRepo(db *sqlx.DB) UserRepo {
 	}
 }
 
-func (r *userRepo) Create(usr User) (*User , error) {
+func (r *userRepo) Create(usr domain.User) (*domain.User , error) {
     query := `
 		INSERT INTO users (
 		  name, 
@@ -80,10 +62,8 @@ func (r *userRepo) Create(usr User) (*User , error) {
 	return &usr , nil
 }
 
-
-
-func (r *userRepo) GetById(usrID int) (*User, error) {
-	var user User
+func (r *userRepo) GetById(usrID int) (*domain.User, error) {
+	var user domain.User
 	query := `SELECT * FROM users WHERE id = $1`
 	err := r.db.Get(&user, query, usrID)
 	if err != nil {
@@ -92,8 +72,8 @@ func (r *userRepo) GetById(usrID int) (*User, error) {
 	return &user, nil
 }
 
-func (r *userRepo) Find(email, password string) (*User, error) {
-	var user User
+func (r *userRepo) Find(email, password string) (*domain.User, error) {
+	var user domain.User
 	query := `SELECT * FROM users WHERE email = $1 AND password = $2`
 	err := r.db.Get(&user, query, email, password)
 	if err != nil {
@@ -102,8 +82,8 @@ func (r *userRepo) Find(email, password string) (*User, error) {
 	return &user, nil
 }
 
-func (r *userRepo) Get() ([]User, error) {
-	var users []User
+func (r *userRepo) Get() ([]domain.User, error) {
+	var users []domain.User
 	query := `SELECT * FROM users`
 	err := r.db.Select(&users, query)
 	if err != nil {
@@ -112,7 +92,7 @@ func (r *userRepo) Get() ([]User, error) {
 	return users, nil
 }
 
-func (r *userRepo) UpdateUser(user User) (*User , error) {
+func (r *userRepo) UpdateUser(user domain.User) (*domain.User , error) {
 	query := `
 		UPDATE users
 		SET 
@@ -142,7 +122,7 @@ func (r *userRepo) UpdateUser(user User) (*User , error) {
 	return nil, nil
 } 
 
-func (r *userRepo) PatchUser(id int, req UpdateUserReq) (*User, error) {
+func (r *userRepo) PatchUser(id int, req domain.UpdateUserReq) (*domain.User, error) {
 	query := "UPDATE users SET "
 	params := map[string]interface{}{"id": id}
 	setClauses := []string{}
@@ -180,7 +160,7 @@ func (r *userRepo) PatchUser(id int, req UpdateUserReq) (*User, error) {
 	}
 	defer rows.Close()
 
-	var user User
+	var user domain.User
 	if rows.Next() {
 		if err := rows.StructScan(&user); err != nil {
 			return nil, err

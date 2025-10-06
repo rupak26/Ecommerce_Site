@@ -1,7 +1,7 @@
 package user_handler
 
 import (
-	"ecommerce/repo"
+	"ecommerce/domain"
 	"ecommerce/utils"
 	"encoding/json"
 	"net/http"
@@ -44,7 +44,7 @@ func (h *Handler) UpdateUserById(w http.ResponseWriter , r *http.Request) {
     }
 
 
-	user := repo.User{
+	user := domain.User{
 		Id:         numId,
 		Name:       "",
 		Age:        0,
@@ -69,7 +69,7 @@ func (h *Handler) UpdateUserById(w http.ResponseWriter , r *http.Request) {
 		user.Occupation = *req.Occupation
 	}
 
-	updatedUser , err := h.userRepo.UpdateUser(user)
+	updatedUser , err := h.svc.UpdateUser(user)
 	if err != nil {
 		utils.Send_erros(w , "User not found" , http.StatusNotFound)
 		return

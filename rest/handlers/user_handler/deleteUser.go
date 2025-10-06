@@ -17,7 +17,7 @@ func (h *Handler) DeleteUser (w http.ResponseWriter , r *http.Request) {
 		return
 	}
     
-	err = h.userRepo.Delete(numId)
+	err = h.svc.Delete(numId)
 
 	if err != nil {
 		utils.Send_erros(w , "User not found" , http.StatusNotFound)

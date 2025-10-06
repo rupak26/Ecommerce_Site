@@ -1,7 +1,7 @@
 package product_handler
 
 import (
-	"ecommerce/repo"
+	"ecommerce/domain"
 	"ecommerce/utils"
 	"encoding/json"
 	"net/http"
@@ -41,7 +41,7 @@ func (h *Handler) UpdateProductById(w http.ResponseWriter , r *http.Request) {
 		return
     }
 
-    prod := repo.Product {
+    prod := domain.Product {
 		Id:         numId,
 		ProductName : "" ,
 		Url : "" ,
@@ -59,7 +59,7 @@ func (h *Handler) UpdateProductById(w http.ResponseWriter , r *http.Request) {
 	   prod.Quantity = *req.Quantity
 	}
 	
-	updatedUser , err := h.productRepo.Update(prod)
+	updatedUser , err := h.svc.Update(prod)
 	if err != nil {
 		utils.Send_erros(w , "User not found" , http.StatusNotFound)
 		return

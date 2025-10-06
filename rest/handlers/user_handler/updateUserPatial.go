@@ -1,7 +1,7 @@
 package user_handler
 
 import (
-	"ecommerce/repo"
+	"ecommerce/domain"
 	"ecommerce/utils"
 	"encoding/json"
 	"net/http"
@@ -16,7 +16,7 @@ func (h *Handler) UpdateUserPatialById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var req repo.UpdateUserReq
+	var req domain.UpdateUserReq
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		utils.WriteResponse(w, http.StatusBadRequest, "Invalid JSON")
 		return
@@ -27,7 +27,7 @@ func (h *Handler) UpdateUserPatialById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	updatedUser, err := h.userRepo.PatchUser(numID, req)
+	updatedUser, err := h.svc.PatchUser(numID, req)
 	if err != nil {
 		utils.WriteResponse(w, http.StatusNotFound, err.Error())
 		return

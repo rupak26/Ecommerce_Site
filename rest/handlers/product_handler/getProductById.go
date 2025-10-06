@@ -21,7 +21,7 @@ func (h * Handler) GetProductById(w http.ResponseWriter , r *http.Request) {
 	// 	utils.WriteResponse(w , http.StatusNotFound , fmt.Sprintf("User with id %d not found", numId))
 	// 	return 
 	// }
-	product , err := h.productRepo.GetById(prodId)
+	product , err := h.svc.GetById(prodId)
 	if err != nil {
 		utils.Send_erros(w , "Product not found" , http.StatusNotFound)
 		return

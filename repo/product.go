@@ -2,32 +2,16 @@ package repo
 
 import (
 	"database/sql"
+	"ecommerce/domain"
+	"ecommerce/products"
 	"fmt"
 	"strings"
-	
+
 	"github.com/jmoiron/sqlx"
 )
 
-type Product struct {
-	Id          int    `db:"id" json:"id"`
-	ProductName string `db:"productname" json:"productname"`
-	Url         string `db:"url" json:"url"`
-	Quantity    int    `db:"quantity" json:"quantity"`
-}
-type UpdateProductReq struct {
-	ProductName *string
-	Url *string
-	Quantity *int
-}
-
-
 type ProductRepo interface{
-	Create(p Product) (*Product , error) 
-	GetById(pID int) (*Product , error)
-	List() (*[]Product , error)
-	Update(prod Product) (*Product , error)
-	PatchProduct(id int, req UpdateProductReq) (*Product, error)
-	Delete(id int) error
+	 products.ProductRepo // embeding
 } 
 
 type productRepo struct {
@@ -42,7 +26,7 @@ func NewProductRepo(db *sqlx.DB) ProductRepo {
 	 return repo
 }
 
-func (r *productRepo) Create(p Product) (*Product , error) {
+func (r *productRepo) Create(p domain.Product) (*domain.Product , error) {
 	query := `
 		INSERT INTO products (
 			productname,
@@ -69,8 +53,8 @@ func (r *productRepo) Create(p Product) (*Product , error) {
 	return &p, nil
 }
 
-func (r productRepo) GetById(pId int) (*Product , error) {
-	var prod Product
+func (r productRepo) GetById(pId int) (*domain.Product , error) {
+	var prod domain.Product
     query := `SELECT id, productname, url, quantity FROM products WHERE id = $1`
 	err := r.db.Get(&prod , query , pId) 
     if err != nil {
@@ -82,8 +66,8 @@ func (r productRepo) GetById(pId int) (*Product , error) {
 	return &prod , nil
 } 
 
-func (r *productRepo) List() (*[]Product , error) {
-	var prod []Product
+func (r *productRepo) List() (*[]domain.Product , error) {
+	var prod []domain.Product
 	query := `SELECT * FROM products`
 	err := r.db.Select(&prod, query)
 	if err != nil {
@@ -92,7 +76,7 @@ func (r *productRepo) List() (*[]Product , error) {
 	return &prod, nil
 } 
 
-func (r *productRepo) Update(prod Product) (*Product , error) {
+func (r *productRepo) Update(prod domain.Product) (*domain.Product , error) {
 	query :=`   UPDATE products
 	            SET   
 			    productname =  :productname,
@@ -117,8 +101,7 @@ func (r *productRepo) Update(prod Product) (*Product , error) {
 	return nil, nil	
 }
 
-
-func (r *productRepo) PatchProduct(id int, req UpdateProductReq) (*Product, error) {
+func (r *productRepo) PatchProduct(id int, req domain.UpdateProductReq) (*domain.Product, error) {
 	query := "UPDATE products SET "
 	params := map[string]interface{}{"id": id}
 	setClauses := []string{}
@@ -148,7 +131,7 @@ func (r *productRepo) PatchProduct(id int, req UpdateProductReq) (*Product, erro
 	}
 	defer rows.Close()
 
-	var prod Product
+	var prod domain.Product
 	if rows.Next() {
 		if err := rows.StructScan(&prod); err != nil {
 			return nil, err
@@ -157,7 +140,6 @@ func (r *productRepo) PatchProduct(id int, req UpdateProductReq) (*Product, erro
 	}
 	return nil, fmt.Errorf("user with id %d not found", id)
 }
-
 
 func (r *productRepo) Delete(id int) error {
 	query := `DELETE FROM products WHERE id=$1` 

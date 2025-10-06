@@ -6,7 +6,7 @@ import (
 )
 
 func (h *Handler) GetUser(w http.ResponseWriter , r *http.Request) {
-	userList , err := h.userRepo.Get()
+	userList , err := h.svc.Get()
 	
 	if err != nil {
        http.Error(w , "Internal Server Error" , http.StatusInternalServerError)
