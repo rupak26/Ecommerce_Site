@@ -41,6 +41,5 @@ func (h *Handler) CreateUser(w http.ResponseWriter , r *http.Request) {
 		return
 	}
 	
-	
 	utils.WriteResponse(w , http.StatusCreated , createUser)
 }

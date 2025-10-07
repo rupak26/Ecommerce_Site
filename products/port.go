@@ -14,6 +14,7 @@ type ProductRepo interface{
 	Create(p domain.Product) (*domain.Product , error) 
 	GetById(pID int) (*domain.Product , error)
 	List(page , limit int64) (*[]domain.Product , error)
+	Count() (int64 , error)
 	Update(prod domain.Product) (*domain.Product , error)
 	PatchProduct(id int, req domain.UpdateProductReq) (*domain.Product, error)
 	Delete(id int) error

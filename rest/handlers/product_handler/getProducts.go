@@ -12,11 +12,23 @@ func (h *Handler) GetProducts(w http.ResponseWriter , r *http.Request) {
 	
 	pg, _ := strconv.ParseInt(page, 10, 64)
     lmt, _ := strconv.ParseInt(limit, 10, 64)
-
+	if pg == 0 {
+		pg = 1 
+	}
+	if lmt == 0 {
+		lmt = 10
+	}
 	productlist , err := h.svc.List(pg ,lmt) 
 	
 	if err != nil {
        http.Error(w , "Internal Server Error" ,http.StatusInternalServerError)
 	}
-    utils.WriteResponse(w , http.StatusOK , productlist)
+   
+	totalCount , err := h.svc.Count()
+    
+	if err != nil {
+       http.Error(w , "Internal Server Error" ,http.StatusInternalServerError)
+	}
+
+    utils.SendPage(w , productlist , pg , lmt , totalCount)
 }

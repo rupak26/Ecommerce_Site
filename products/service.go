@@ -47,6 +47,10 @@ func (svc *service) List(page , limit int64) (*[]domain.Product, error) {
 	 return prod , nil
 }
 
+func (svc *service) Count() (int64 , error) {
+	 return svc.prodRepo.Count()
+}
+
 func (svc *service) PatchProduct(id int, req domain.UpdateProductReq) (*domain.Product, error) {
 	 prod , err := svc.prodRepo.PatchProduct(id , req) 
 	 if err != nil {
