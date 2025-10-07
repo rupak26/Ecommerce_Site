@@ -66,10 +66,11 @@ func (r productRepo) GetById(pId int) (*domain.Product , error) {
 	return &prod , nil
 } 
 
-func (r *productRepo) List() (*[]domain.Product , error) {
+func (r *productRepo) List(page , limit int64) (*[]domain.Product , error) {
 	var prod []domain.Product
-	query := `SELECT * FROM products`
-	err := r.db.Select(&prod, query)
+	offset := (page - 1) * limit
+    query := `SELECT * FROM products LIMIT $1 OFFSET $2`
+	err := r.db.Select(&prod, query , limit , offset)
 	if err != nil {
 		return nil, err
 	}

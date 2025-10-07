@@ -39,8 +39,8 @@ func (svc *service) GetById(pID int) (*domain.Product, error) {
 	 return prod , nil
 }
 
-func (svc *service) List() (*[]domain.Product, error) {
-     prod , err := svc.prodRepo.List()
+func (svc *service) List(page , limit int64) (*[]domain.Product, error) {
+     prod , err := svc.prodRepo.List(page , limit)
 	 if err != nil {
 		return nil , err
 	 }
