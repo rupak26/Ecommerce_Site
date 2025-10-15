@@ -1,8 +1,10 @@
 package product_handler
 
 import (
-	"net/http"
+	"fmt"
+	"ecommerce/domain"
 	"ecommerce/utils"
+	"net/http"
 	"strconv"
 )
 
@@ -18,17 +20,46 @@ func (h *Handler) GetProducts(w http.ResponseWriter , r *http.Request) {
 	if lmt == 0 {
 		lmt = 10
 	}
-	productlist , err := h.svc.List(pg ,lmt) 
-	
-	if err != nil {
-       http.Error(w , "Internal Server Error" ,http.StatusInternalServerError)
-	}
-   
-	totalCount , err := h.svc.Count()
+    // http.Error(w , "Internal Server Error" ,http.StatusInternalServerError)
+
+	productListcL := make(chan []domain.Product) 
+	countcL    := make(chan int64) 
+	errcL       := make(chan error , 2)
     
-	if err != nil {
-       http.Error(w , "Internal Server Error" ,http.StatusInternalServerError)
+    go func() {
+       productlist , err := h.svc.List(pg ,lmt) 
+	   if err != nil {
+           errcL <- err  
+	   }
+       productListcL <- *productlist 
+	}()
+
+
+	go func() {
+        totalCount , err := h.svc.Count()
+		if err != nil {
+		  errcL <- err
+		}    
+		countcL <- totalCount
+	}()
+    
+	var (
+		productList []domain.Product
+		totalCount  int64
+	)
+    
+    for i:=0 ; i<2 ; i++ {
+		select {
+		case products:= <-productListcL:
+		     productList = products 
+		case count := <-countcL:
+			 totalCount = count
+		case err := <- errcL:
+			 http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			 fmt.Println("Error:", err)
+			 return
+		}
 	}
 
-    utils.SendPage(w , productlist , pg , lmt , totalCount)
+    utils.SendPage(w , productList , pg , lmt , totalCount)
 }
