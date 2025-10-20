@@ -10,6 +10,7 @@ import (
 	"ecommerce/rest/middleware"
 	"ecommerce/users"
 	"ecommerce/products"
+	"log/slog"
 	"fmt"
 	"os"
 )
@@ -19,11 +20,13 @@ func Serve() {
     dbCon , err := db.NewConnection(cnf.DB)
 	if err != nil {
 		fmt.Println(err)
+		slog.Error(err.Error())
 		os.Exit(1)
 	}
     
     err = db.MigrateDB(dbCon , "./migrations")
     if err != nil {
+		slog.Error(err.Error())
 		fmt.Println(err)
 		os.Exit(1)
 	}

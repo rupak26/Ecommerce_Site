@@ -1,0 +1,7 @@
+{"time":"2025-10-19T11:44:32.25410929+06:00","level":"INFO","source":{"function":"ecommerce/logger.SetupLogger","file":"/media/rupok/New Volume/Pratice/GO_Learning/GoLang/logger/logger.go","line":35},"msg":"Logger initialized","file":"logs/current.log"}
+{"time":"2025-10-19T11:50:52.073940854+06:00","level":"INFO","source":{"function":"main.main","file":"/media/rupok/New Volume/Pratice/GO_Learning/GoLang/main.go","line":12},"msg":"Application Started"}
+{"time":"2025-10-19T11:50:58.188480219+06:00","level":"INFO","source":{"function":"ecommerce/rest/handlers/product_handler.(*Handler).CreateProduct","file":"/media/rupok/New Volume/Pratice/GO_Learning/GoLang/rest/handlers/product_handler/createProduct.go","line":44},"msg":"Product Created"}
+{"time":"2025-10-19T11:50:58.188795358+06:00","level":"INFO","msg":"POST /products 5.815398ms"}
+{"time":"2025-10-19T12:20:21.269591688+06:00","level":"INFO","source":{"function":"main.main","file":"/media/rupok/New Volume/Pratice/GO_Learning/GoLang/main.go","line":12},"msg":"Application Started"}
+{"time":"2025-10-19T12:20:26.735383706+06:00","level":"INFO","source":{"function":"ecommerce/rest/handlers/product_handler.(*Handler).CreateProduct","file":"/media/rupok/New Volume/Pratice/GO_Learning/GoLang/rest/handlers/product_handler/createProduct.go","line":44},"msg":"Product Created"}
+{"time":"2025-10-19T12:20:26.735685348+06:00","level":"INFO","msg":"POST /products 9.906423ms"}

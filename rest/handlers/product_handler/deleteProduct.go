@@ -1,10 +1,10 @@
 package product_handler
 
-
 import (
+	"ecommerce/utils"
+	"log/slog"
 	"net/http"
 	"strconv"
-	"ecommerce/utils"
 )
 
 func (h *Handler) DeleteProduct (w http.ResponseWriter , r *http.Request) {
@@ -23,5 +23,6 @@ func (h *Handler) DeleteProduct (w http.ResponseWriter , r *http.Request) {
 		utils.Send_erros(w , "Product not found" , http.StatusNotFound)
 		return
 	}
+	slog.Info("Product Deleted")
 	utils.WriteResponse(w , http.StatusOK , "Successfull Deleted")
 }

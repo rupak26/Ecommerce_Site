@@ -1,9 +1,15 @@
 package main
+
 import (
-    "ecommerce/cmd"
+	"ecommerce/cmd"
+	"log/slog"
+	"ecommerce/logger"
 )
 
 func main() {
+   logs := logger.SetupLogger()
+   slog.SetDefault(logs)
+   slog.Info("Application Started")
    cmd.Serve()
 }
 

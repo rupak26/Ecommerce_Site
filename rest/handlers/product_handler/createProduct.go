@@ -1,11 +1,12 @@
 package product_handler
 
 import (
-
 	"ecommerce/domain"
 	"ecommerce/utils"
 	"encoding/json"
 	"fmt"
+	"log/slog"
+
 	//"hash"
 	"net/http"
 	//"github.com/go-playground/locales/tk"
@@ -40,6 +41,6 @@ func (h *Handler) CreateProduct(w http.ResponseWriter , r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-
+    slog.Info("Product Created")
 	utils.WriteResponse(w , http.StatusCreated , createProduct)
 }
