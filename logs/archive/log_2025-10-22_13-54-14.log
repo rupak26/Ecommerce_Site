@@ -1,0 +1,4 @@
+{"time":"2025-10-21T01:21:03.848432934+06:00","level":"INFO","source":{"function":"main.main","file":"/media/rupok/New Volume1/Pratice/GO_Learning/GoLang/main.go","line":12},"msg":"Application Started"}
+{"time":"2025-10-21T01:22:09.490886769+06:00","level":"INFO","msg":"GET /products 88.770945ms"}
+{"time":"2025-10-21T01:22:23.612409939+06:00","level":"INFO","source":{"function":"ecommerce/rest/handlers/product_handler.(*Handler).CreateProduct","file":"/media/rupok/New Volume1/Pratice/GO_Learning/GoLang/rest/handlers/product_handler/createProduct.go","line":44},"msg":"Product Created"}
+{"time":"2025-10-21T01:22:23.612725993+06:00","level":"INFO","msg":"POST /products 91.588275ms"}

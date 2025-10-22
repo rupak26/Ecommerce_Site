@@ -1,9 +1,10 @@
 package product_handler
 
 import (
-	"fmt"
 	"ecommerce/domain"
 	"ecommerce/utils"
+	"fmt"
+	"log/slog"
 	"net/http"
 	"strconv"
 )
@@ -55,6 +56,7 @@ func (h *Handler) GetProducts(w http.ResponseWriter , r *http.Request) {
 		case count := <-countcL:
 			 totalCount = count
 		case err := <- errcL:
+			 slog.Error(err.Error())
 			 http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			 fmt.Println("Error:", err)
 			 return

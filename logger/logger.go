@@ -10,6 +10,8 @@ import (
 	"fmt"
 )
 
+var ENVIRONMENT = os.Getenv("ENVIRONMENT")
+
 const (
 	MaxSizeBytes = 5 * 1024 * 1024 // 5 MB
 	DateLayout   = "2006-01-02"
@@ -33,9 +35,17 @@ func SetupLogger() *slog.Logger {
     }
 
     multiWriter := io.MultiWriter(logFile, os.Stdout)
+    
+	var level slog.Level
+
+	if ENVIRONMENT == "production" {
+		level = slog.LevelError
+	} else {
+		level = slog.LevelInfo
+	}
 
     handler := slog.NewJSONHandler(multiWriter, &slog.HandlerOptions{
-        Level:     slog.LevelDebug,
+        Level:     level,
         AddSource: true,
     })
 
@@ -47,7 +57,7 @@ func SetupLogger() *slog.Logger {
 }
 
 
-func rotateIfNeeded(logsDir, archiveDir,logFilePath string) {
+func rotateIfNeeded(logsDir , archiveDir,logFilePath string) {
 	info, err := os.Stat(logFilePath)
 	if os.IsNotExist(err) {
 		return // no file yet
